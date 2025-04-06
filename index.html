@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자취생을 위한 봄철 제철 재료 레시피</title>
+    
+    <!-- 페이스북 공유 최적화 메타 태그 -->
+    <meta property="og:title" content="자취생을 위한 봄철 제철 재료 레시피">
+    <meta property="og:description" content="봄철 제철 재료로 간단하고 맛있는 요리를! 자취생을 위한 7가지 레시피를 소개합니다.">
+    <meta property="og:image" content="https://example.com/spring-recipe-card-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://example.com/spring-recipes">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="자취생 봄 레시피 카드뉴스">
+    
+    <!-- 일반 소셜 미디어 공유 메타 태그 -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="자취생을 위한 봄철 제철 재료 레시피">
+    <meta name="twitter:description" content="봄철 제철 재료로 간단하고 맛있는 요리를! 자취생을 위한 7가지 레시피를 소개합니다.">
+    <meta name="twitter:image" content="https://example.com/spring-recipe-card-image.png">
+    
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+        }
+        
+        .card-slider {
+            width: 100%;
+            height: 600px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        
+        .card.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .card-content {
+            padding: 32px;
+            flex: 1;
+            color: white;
+        }
+        
+        .card-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .card-subtitle {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        
+        .card-description {
+            font-size: 18px;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+        
+        .card-emoji {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 180px;
+            font-size: 80px;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-navigation {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        
+        .nav-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .card-indicators {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+        }
+        
+        .indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .indicator.active {
+            width: 24px;
+            border-radius: 4px;
+            background-color: white;
+        }
+        
+        .status {
+            margin-top: 16px;
+            font-size: 14px;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        /* 각 카드의 그라데이션 배경 */
+        #card-0 { background: linear-gradient(135deg, #2ED573 0%, #7BED8A 100%); } /* 초록 */
+        #card-1 { background: linear-gradient(135deg, #FF6B00 0%, #FFA559 100%); } /* 주황 */
+        #card-2 { background: linear-gradient(135deg, #5352ED 0%, #7B7DFD 100%); } /* 파랑 */
+        #card-3 { background: linear-gradient(135deg, #FD7272 0%, #FEA47F 100%); } /* 연한 붉은색 */
+        #card-4 { background: linear-gradient(135deg, #A742F5 0%, #C17EFF 100%); } /* 보라 */
+        #card-5 { background: linear-gradient(135deg, #FF4757 0%, #FF6B81 100%); } /* 붉은색 */
+        #card-6 { background: linear-gradient(135deg, #1E90FF 0%, #70A1FF 100%); } /* 하늘색 */
+        #card-7 { background: linear-gradient(135deg, #FFC107 0%, #FFECB3 100%); } /* 노랑 */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card-slider">
+            <!-- 카드 1 - 소개 -->
+            <div class="card active" id="card-0">
+                <div class="card-content">
+                    <h2 class="card-title">자취생을 위한 봄철 제철 레시피</h2>
+                    <h3 class="card-subtitle">간단하고 맛있는 7가지 요리</h3>
+                    <p class="card-description">봄의 맛을 자취생 스타일로! 제철 재료로 쉽고 빠르게 만들 수 있는 레시피를 소개합니다.</p>
+                </div>
+                <div class="card-emoji">🌸</div>
+            </div>
+            
+            <!-- 카드 2 - 달래 간장 비빔밥 -->
+            <div class="card" id="card-1">
+                <div class="card-content">
+                    <h2 class="card-title">달래 간장 비빔밥</h2>
+                    <h3 class="card-subtitle">5분 완성 밥도둑</h3>
+                    <p class="card-description">재료: 달래 한 줌, 밥, 간장, 고추장, 참기름, 계란(선택)<br>1. 달래 씻어 3cm로 썰기<br>2. 간장 1스푼, 고추장 반 스푼, 참기름 약간 넣고 버무려 밥 위에 얹기<br>팁: 달래 향이 봄을 불러와요!</p>
+                </div>
+                <div class="card-emoji">🍚</div>
+            </div>
+            
+            <!-- 카드 3 - 봄동 된장국 -->
+            <div class="card" id="card-2">
+                <div class="card-content">
+                    <h2 class="card-title">봄동 된장국</h2>
+                    <h3 class="card-subtitle">따뜻한 한 끼</h3>
+                    <p class="card-description">재료: 봄동 4~5잎, 된장 1스푼, 물 300ml, 다진 마늘<br>1. 봄동 씻어 한 입 크기로 썰기<br>2. 물에 된장 풀고 마늘 넣어 끓이다 봄동 추가, 3분 끓이기<br>팁: 부드러운 봄동이 국물에 딱!</p>
+                </div>
+                <div class="card-emoji">🥣</div>
+            </div>
+            
+            <!-- 카드 4 - 쑥 토스트 -->
+            <div class="card" id="card-3">
+                <div class="card-content">
+                    <h2 class="card-title">쑥 토스트</h2>
+                    <h3 class="card-subtitle">봄 향기 간식</h3>
+                    <p class="card-description">재료: 쑥 한 줌, 식빵, 버터, 꿀<br>1. 쑥 데쳐 물기 짜고 잘게 다지기<br>2. 식빵에 버터 바르고 쑥 올려 전자레인지 1분 돌리기<br>팁: 꿀 뿌려 달콤하게!</p>
+                </div>
+                <div class="card-emoji">🍞</div>
+            </div>
+            
+            <!-- 카드 5 - 취나물 볶음밥 -->
+            <div class="card" id="card-4">
+                <div class="card-content">
+                    <h2 class="card-title">취나물 볶음밥</h2>
+                    <h3 class="card-subtitle">남은 밥 활용</h3>
+                    <p class="card-description">재료: 취나물 한 줌, 남은 밥, 간장, 참기름, 다진 마늘<br>1. 취나물 데쳐 물기 짜고 썰기<br>2. 팬에 참기름, 마늘 볶다가 취나물과 밥 넣어 간장으로 간하기<br>팁: 씁쓸한 맛이 매력!</p>
+                </div>
+                <div class="card-emoji">🍳</div>
+            </div>
+            
+            <!-- 카드 6 - 딸기 요거트 볼 -->
+            <div class="card" id="card-5">
+                <div class="card-content">
+                    <h2 class="card-title">딸기 요거트 볼</h2>
+                    <h3 class="card-subtitle">상큼한 디저트</h3>
+                    <p class="card-description">재료: 딸기 5~6개, 플레인 요거트, 꿀<br>1. 딸기 씻어 반으로 자르기<br>2. 그릇에 요거트 깔고 딸기 얹어 꿀 뿌리기<br>팁: 냉동 딸기로도 가능!</p>
+                </div>
+                <div class="card-emoji">🍓</div>
+            </div>
+            
+            <!-- 카드 7 - 달래 크림치즈 크래커 -->
+            <div class="card" id="card-6">
+                <div class="card-content">
+                    <h2 class="card-title">달래 크림치즈 크래커</h2>
+                    <h3 class="card-subtitle">톡 쏘는 간식</h3>
+                    <p class="card-description">재료: 달래 한 줌, 크림치즈, 크래커<br>1. 달래 씻어 잘게 다지기<br>2. 크림치즈에 달래 섞어 크래커에 발라 먹기<br>팁: 달래의 매운맛이 포인트!</p>
+                </div>
+                <div class="card-emoji">🧀</div>
+            </div>
+            
+            <!-- 카드 8 - 봄나물 머그 케이크 -->
+            <div class="card" id="card-7">
+                <div class="card-content">
+                    <h2 class="card-title">봄나물 머그 케이크</h2>
+                    <h3 class="card-subtitle">전자레인지 디저트</h3>
+                    <p class="card-description">재료: 쑥 한 줌, 밀가루 4스푼, 설탕 2스푼, 우유 3스푼, 식용유 1스푼, 베이킹파우더 약간<br>1. 쑥 데쳐 다지고 모든 재료 섞기<br>2. 머그잔에 넣어 전자레인지 2~3분 돌리기<br>팁: 따뜻한 봄 향기!</p>
+                </div>
+                <div class="card-emoji">☕</div>
+            </div>
+            
+            <!-- 탐색 버튼 -->
+            <div class="card-navigation">
+                <button class="nav-btn" id="prev-btn">←</button>
+                <button class="nav-btn" id="next-btn">→</button>
+            </div>
+            
+            <!-- 인디케이터 -->
+            <div class="card-indicators">
+                <span class="indicator active" data-index="0"></span>
+                <span class="indicator" data-index="1"></span>
+                <span class="indicator" data-index="2"></span>
+                <span class="indicator" data-index="3"></span>
+                <span class="indicator" data-index="4"></span>
+                <span class="indicator" data-index="5"></span>
+                <span class="indicator" data-index="6"></span>
+                <span class="indicator" data-index="7"></span>
+            </div>
+        </div>
+        
+        <div class="status">
+            <p>카드 <span id="current-card">1</span> / 8 • SWIPE FOR MORE</p>
+        </div>
+    </div>
+
+    <script>
+        function generateFirstCardImage() {
+            const firstCard = document.getElementById('card-0');
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = 1200;
+            canvas.height = 630;
+            
+            const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#2ED573');
+            gradient.addColorStop(1, '#7BED8A');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 60px Pretendard, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('자취생을 위한 봄철 제철 레시피', canvas.width/2, 200);
+            
+            ctx.font = '40px Pretendard, sans-serif';
+            ctx.fillText('간단하고 맛있는 7가지 요리', canvas.width/2, 300);
+            
+            ctx.font = '120px Arial';
+            ctx.fillText('🌸', canvas.width/2, 450);
+            
+            const imageUrl = canvas.toDataURL('image/png');
+            
+            document.querySelector('meta[property="og:image"]').setAttribute('content', imageUrl);
+            document.querySelector('meta[name="twitter:image"]').setAttribute('content', imageUrl);
+            
+            return imageUrl;
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const cardImageUrl = generateFirstCardImage();
+            const cards = document.querySelectorAll('.card');
+            const indicators = document.querySelectorAll('.indicator');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const currentCardText = document.getElementById('current-card');
+            let currentCardIndex = 0;
+            
+            function updateCard(index) {
+                cards.forEach(card => card.classList.remove('active'));
+                indicators.forEach(ind => ind.classList.remove('active'));
+                
+                cards[index].classList.add('active');
+                indicators[index].classList.add('active');
+                currentCardText.textContent = index + 1;
+                currentCardIndex = index;
+            }
+            
+            function prevCard() {
+                let newIndex = currentCardIndex - 1;
+                if (newIndex < 0) newIndex = cards.length - 1;
+                updateCard(newIndex);
+            }
+            
+            function nextCard() {
+                let newIndex = currentCardIndex + 1;
+                if (newIndex >= cards.length) newIndex = 0;
+                updateCard(newIndex);
+            }
+            
+            prevBtn.addEventListener('click', prevCard);
+            nextBtn.addEventListener('click', nextCard);
+            
+            indicators.forEach(indicator => {
+                indicator.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    updateCard(index);
+                });
+            });
+            
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft') prevCard();
+                if (e.key === 'ArrowRight') nextCard();
+            });
+            
+            const slider = document.querySelector('.card-slider');
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            slider.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            slider.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                if (touchEndX < touchStartX - 50) nextCard();
+                if (touchEndX > touchStartX + 50) prevCard();
+            }
+            
+            let autoSlide = setInterval(nextCard, 5000);
+            
+            function resetAutoSlide() {
+                clearInterval(autoSlide);
+                autoSlide = setInterval(nextCard, 5000);
+            }
+            
+            prevBtn.addEventListener('click', resetAutoSlide);
+            nextBtn.addEventListener('click', resetAutoSlide);
+            indicators.forEach(ind => ind.addEventListener('click', resetAutoSlide));
+            slider.addEventListener('touchend', resetAutoSlide);
+            
+            console.log('대표 이미지 URL:', cardImageUrl);
+        });
+    </script>
+</body>
+</html>
